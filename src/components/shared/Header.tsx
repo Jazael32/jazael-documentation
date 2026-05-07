@@ -1,9 +1,11 @@
 import { siteConfig } from "@/config/links"
-import { Search } from "lucide-react";
+import { Search, Moon, Sun } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { useRef, useState, useEffect } from "react";
 import { docsContent, type DocContent } from "@/documentation/documents/docs";
+import { useTheme } from "@/components/theme-provider";
 
 interface SearchResult {
   path: string;
@@ -15,12 +17,17 @@ interface SearchResult {
 export const Header = () => {
   const route = useLocation();
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   const searchDocs = (query: string): SearchResult[] => {
     if (!query.trim()) return [];
@@ -163,6 +170,17 @@ export const Header = () => {
           >
             GitHub
           </Link>
+          
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+          >
+            <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span className="sr-only">Toggle theme</span>
+          </Button>
         </nav>
       </div>
     </header>
