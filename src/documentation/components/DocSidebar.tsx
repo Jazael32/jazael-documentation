@@ -44,16 +44,18 @@ export const DocSidebar = () => {
       <div className="h-full overflow-y-auto py-6 pr-6 lg:py-8">
         <nav className="w-full">
           {docsConfig.sidebarNav.map((section) => (
-            <div key={section.title} className="pb-8">
-              <h4 className="mb-1 rounded-md px-2 py-1 text-sm font-semibold text-foreground">
-                {section.title}
-              </h4>
+            <details key={section.title} className="pb-4" open>
+              <summary className="list-none cursor-pointer">
+                <h4 className="mb-1 rounded-md px-2 py-1 text-sm font-semibold text-foreground">
+                  {section.title}
+                </h4>
+              </summary>
               {section.items?.length && (
                 <div className="grid grid-flow-row auto-rows-max text-sm">
                   {section.items.map(renderItem)}
                 </div>
               )}
-            </div>
+            </details>
           ))}
         </nav>
       </div>

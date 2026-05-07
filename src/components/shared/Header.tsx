@@ -1,20 +1,20 @@
 import { siteConfig } from "@/config/links"
-import { Search } from "lucide-react";
+import { Search, Moon, Sun } from "lucide-react";
 import { Link, useLocation } from "react-router"
 import { Input } from "@/components/ui/input"
-import { useRef } from "react";
+import { useSearchReducer } from "../reducer/useSearchReducer";
+import { Button } from "@/components/ui/button"
+import { useTheme } from "../../theme-provider";
+
 
 export const Header = () => {
-  const route = useLocation();
-  const inputRef = useRef<HTMLInputElement>(null);
 
-  //!TODO
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      const value = inputRef.current?.value ?? '';
-      console.log(value);
-    }
-  }
+  const route = useLocation();
+  const { theme, setTheme } = useTheme();
+  const { state, dispatch, inputRef, containerRef, handleNavigate, handleKeyDown } = useSearchReducer();
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 px-2">
@@ -24,14 +24,42 @@ export const Header = () => {
         </Link>
 
         <nav className="flex items-center gap-4">
-          {
-            route.pathname.includes('docs') && (
-              <div className="flex items-center gap-1">
-                <Search />
-                <Input ref={inputRef} placeholder="search word" className="text-lg bg-white" onKeyDown={handleKeyDown} />
+          {route.pathname.includes("docs") && (
+            <div ref={containerRef} className="relative">
+              <div className="flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5">
+                <Search className="h-4 w-4 text-muted-foreground" />
+                <Input
+                  ref={inputRef}
+                  placeholder="Search docs..."
+                  className="h-7 w-50 border-0 bg-transparent p-0 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+                  value={state.searchQuery}
+                  onChange={(e) => dispatch({ type: "SET_QUERY", payload: e.target.value })}
+                  onKeyDown={handleKeyDown}
+                  onFocus={() => state.searchResults.length > 0 && dispatch({ type: "SET_IS_OPEN", payload: true })}
+                />
               </div>
-            )
-          }
+              {state.isOpen && state.searchResults.length > 0 && (
+                <div className="absolute right-0 top-full mt-2 w-87.5 rounded-md border bg-background shadow-lg z-50">
+                  <div className="max-h-75 overflow-y-auto p-2">
+                    {state.searchResults.map((result, index) => (
+                      <button
+                        key={result.path}
+                        onClick={() => handleNavigate(result.path)}
+                        className={`w-full text-left rounded-md px-3 py-2 text-sm transition-colors ${index === state.selectedIndex
+                          ? "bg-accent text-accent-foreground"
+                          : "hover:bg-accent hover:text-accent-foreground"
+                          }`}
+                      >
+                        <div className="font-medium">{result.title}</div>
+                        <div className="text-xs text-muted-foreground line-clamp-1">{result.description}</div>
+                        <div className="mt-1 text-xs text-muted-foreground/70">Found in {result.matchType}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           <Link
             to="/docs"
@@ -47,6 +75,17 @@ export const Header = () => {
           >
             GitHub
           </Link>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+          >
+            <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span className="sr-only">Toggle theme</span>
+          </Button>
         </nav>
       </div>
     </header>
