@@ -1,4 +1,3 @@
-import { Header } from "@/components/shared/Header"
 import { Footer } from "@/components/shared/Footer"
 import { HeroPage } from "./HeroPage"
 import { AboutPage } from "./AboutPage"
