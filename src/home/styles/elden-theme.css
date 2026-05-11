@@ -1,0 +1,147 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* Elden Ring inspired theme - Teal fog & Golden Erdtree */
+.elden-theme {
+  /* Deep teal-green foggy backgrounds */
+  --background: oklch(0.12 0.03 180);
+  --foreground: oklch(0.88 0.02 85);
+
+  /* Card - slightly lighter teal */
+  --card: oklch(0.15 0.035 175);
+  --card-foreground: oklch(0.88 0.02 85);
+
+  --popover: oklch(0.13 0.03 178);
+  --popover-foreground: oklch(0.88 0.02 85);
+
+  /* Primary - Erdtree Golden glow */
+  --primary: oklch(0.75 0.16 75);
+  --primary-foreground: oklch(0.1 0.02 180);
+
+  /* Secondary - Misty teal */
+  --secondary: oklch(0.22 0.04 175);
+  --secondary-foreground: oklch(0.8 0.03 85);
+
+  /* Muted - Foggy teal-grey */
+  --muted: oklch(0.2 0.025 178);
+  --muted-foreground: oklch(0.55 0.02 175);
+
+  /* Accent - Warm amber glow */
+  --accent: oklch(0.72 0.14 70);
+  --accent-foreground: oklch(0.1 0.02 180);
+
+  --destructive: oklch(0.5 0.2 25);
+  --destructive-foreground: oklch(0.95 0.02 85);
+
+  /* Border - subtle teal dividers */
+  --border: oklch(0.25 0.035 175);
+  --input: oklch(0.18 0.03 178);
+  --ring: oklch(0.72 0.14 75);
+
+  /* Charts */
+  --chart-1: oklch(0.75 0.16 75);
+  --chart-2: oklch(0.6 0.12 55);
+  --chart-3: oklch(0.45 0.04 175);
+  --chart-4: oklch(0.7 0.1 65);
+  --chart-5: oklch(0.55 0.14 40);
+
+  --radius: 0.25rem;
+
+  /* Sidebar */
+  --sidebar: oklch(0.1 0.025 180);
+  --sidebar-foreground: oklch(0.88 0.02 85);
+  --sidebar-primary: oklch(0.75 0.16 75);
+  --sidebar-primary-foreground: oklch(0.1 0.02 180);
+  --sidebar-accent: oklch(0.2 0.03 178);
+  --sidebar-accent-foreground: oklch(0.88 0.02 85);
+  --sidebar-border: oklch(0.2 0.03 178);
+  --sidebar-ring: oklch(0.72 0.14 75);
+}
+
+
+/* Custom animations for atmospheric effects */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    filter: blur(20px);
+  }
+
+  50% {
+    opacity: 0.7;
+    filter: blur(30px);
+  }
+}
+
+@keyframes flicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulse-gold {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px oklch(0.75 0.16 75 / 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px oklch(0.75 0.16 75 / 0.5);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 4s ease-in-out infinite;
+}
+
+.animate-flicker {
+  animation: flicker 3s ease-in-out infinite;
+}
+
+.animate-pulse-gold {
+  animation: pulse-gold 3s ease-in-out infinite;
+}
+
+/* Scrollbar styling with teal theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: oklch(0.12 0.03 180);
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.3 0.04 175);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.5 0.1 75);
+}
