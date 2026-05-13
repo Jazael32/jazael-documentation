@@ -139,3 +139,16 @@ export function getDocMeta(slug: string[]): DocMeta | null {
   const path = slug?.length ? `/docs/${slug.join("/")}` : "/docs"
   return docsRegistry[path] || null
 }
+
+// Backwards compatible export for search functionality
+// Returns all docs with their content pre-loaded
+export const docsContent: Record<string, DocContent> = Object.fromEntries(
+  Object.entries(docsRegistry).map(([path, meta]) => [
+    path,
+    {
+      title: meta.title,
+      description: meta.description,
+      content: getMarkdownContent(meta.file),
+    },
+  ])
+)
